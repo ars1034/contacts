@@ -8,87 +8,36 @@
     <meta name="msapplication-tap-highlight" content="no" />
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
     <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
-<script type="text/javascript" src=" cordova.js"></script> 
-<script> 
-document.addEventListener('deviceready', onDeviceReady, false);
-function onDeviceReady(){
-  var size =0;
-  window.requestFileSystem(LocalFileSystem.PERSISTENT, size, onFSsuccess, onFSerror);
-}
-function onFSsuccess(FS){
-   myRoot=FS.root;
-   myRoot.getFile('josh.txt', {create: true, exclusive:false}, function(fileEntry) {setUP(fileEntry, null, true);}, onCreateErr);
-   alert ("Success for FS"); 
-}
-function getItReady(file)
-{
-   writeFile(file, null);
-}
-function readIT() {
-//notice the ugly code for the file method. It can be beautified
-   myFile.file(function (file) {
-      var reader = new FileReader();
-      reader.onloadend = function() {
-          document.getElementById("filedata").innerHTML = this.result;
-      };
-      reader.readAsText(file);
-    }, onReadErr);
-}
-function setUP(fileEntry, x, isAppend){
-	//setUP the file pointer for later use
-    myFile=fileEntry;
-	  
-}
-function onFSerror(err){
-	alert ("FS Error " + err);
-}
-function parseData (entries) { //for finding a file in the dir
-		
-		  exists =-1;
-		  for (var i=0, len=entries.length; i< len; i++) {
-			if (entries[i].isFile && "sample.txt".test(entries[i].name)) {
-				exists=i;
-				break;
-			}
-		  }
-		  if (exists == -1) {
-		   alert ("The file isn't created yet");
-		   return;
-		  }
-		  else 
-		   myFile=entries[exists];
-		 
-		 alert ("Myfile is setup for use");
-}
-function onReadErr (err){
-   alert ("Read Error " + err);
-}
-function onWriteErr (err){
-   alert ("Write Error " + err);
-}
-function onCreateErr (err){
-   alert ("Create Error " + err);
-}
-function writeIT() {
-  //getfile already called and set up myFile
-  myFile.createWriter(onGetWriter, onWriteErr);
-}
-function onGetWriter(myWriter) {
-   //myWriter=writer;
-   str=window.prompt("enter a string");
-   myWriter.seek(myWriter.length);
-   myWriter.write(str);
-}
-</script> 
-    <title>Hello World</title>
+    <title>Contact</title>
 </head>
 
 <body>
-<button type="button" onclick="writeIT()">write hello</button>
-<button type="button" onclick="readIT()">Read file</button>
-<div id ="filedata"> 
-
-</div>
+    <div class="app">
+		<h1>Device Contacts</h1>
+        <div id="deviceready">
+			<h2>Add a Contact</h2>
+            <input id="givenName" type="text" value="Jane" onfocus="this.value='';"> First name<br />
+			<input id="familyName" type="text" value="Doe" onfocus="this.value='';"> Last name<br />
+			<input id="workNum" type="text" value="7241234567" onfocus="this.value='';">Work number<br />
+			<input id="mobileNum" type="text" value="7247654321" onfocus="this.value='';">Mobile number<br />
+			<input id="homeNum" type="text" value="3301234567" onfocus="this.value='';">Home number<br /><br />
+			<button id="givenNameBtn">Save Contact Info</button><br />
+			<hr>
+			
+			<h2>Search Contacts</h2>
+			<input id="searchPattern" type="text" value="Mom" onfocus="this.value='';"> Search string<br /><br />
+			<button id="searchBtn">Search</button><br />
+			
+            <div id="contacts-list" class="event received">
+			
+			</div>
+        </div>
+    </div>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript">
+        app.initialize();
+    </script>
 </body>
 
 </html>
